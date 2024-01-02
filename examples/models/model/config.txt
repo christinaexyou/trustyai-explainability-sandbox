@@ -1,0 +1,31 @@
+name: "distilbert_tokenizer"
+max_batch_size: 0
+backend: "python"
+
+input [
+{
+    name: "TEXT"
+    data_type: TYPE_STRING
+    dims: [ -1 ] # Dynamic Batching: the -1 acts as a dynamic size - it is automatically adjusts to the size of the current input sequence without us having to provide individual lengths for differently sized inputs.
+}
+]
+
+output [
+{
+    name: "input_ids"
+    data_type: TYPE_INT64
+    dims: [-1, -1] # Dynamic Batching for a 2D array
+},
+{
+    name: "attention_mask"
+    data_type: TYPE_INT64
+    dims: [-1, -1]
+}
+]
+
+instance_group [
+    {
+      count: 1
+      kind: KIND_CPU
+    }
+]
